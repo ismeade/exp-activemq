@@ -26,16 +26,21 @@ public class TopicReceiver {
             TopicConnectionFactory factory = new ActiveMQConnectionFactory(ActiveMQConnection.DEFAULT_USER, ActiveMQConnection.DEFAULT_PASSWORD, BROKER_URL);
             // 通过工厂创建一个连接
             connection = factory.createTopicConnection();
+            // 使用持久化订阅者，需要设置clientId
+            connection.setClientID("client_01");
             // 启动连接
             connection.start();
             // 创建一个session会话
             session = connection.createTopicSession(Boolean.TRUE, Session.AUTO_ACKNOWLEDGE);
             // 创建一个消息队列
             Topic topic = session.createTopic(TARGET);
-            // 创建消息制作者
-            TopicSubscriber subscriber = session.createSubscriber(topic);
+            // 创建消息订阅者
+//            TopicSubscriber subscriber = session.createSubscriber(topic);
+            // 持久化订阅者
+            MessageConsumer consumer = session.createDurableSubscriber(topic, connection.getClientID());
 
-            subscriber.setMessageListener(msg -> {
+            consumer.setMessageListener(msg -> {
+//            subscriber.setMessageListener(msg -> {
                 if (msg != null) {
                     MapMessage map = (MapMessage) msg;
                     try {
@@ -46,10 +51,10 @@ public class TopicReceiver {
                 }
             });
             // 休眠100ms再关闭
-            Thread.sleep(1000 * 100);
+            Thread.sleep(1000 * 10);
+            session.commit();
 
             // 提交会话
-            session.commit();
 
         } catch (Exception e) {
             throw e;

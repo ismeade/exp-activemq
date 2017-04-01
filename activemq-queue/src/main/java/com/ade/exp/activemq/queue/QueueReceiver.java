@@ -35,15 +35,13 @@ public class QueueReceiver {
             // 创建消息制作者
             javax.jms.QueueReceiver receiver = session.createReceiver(queue);
 
-            receiver.setMessageListener(new MessageListener() {
-                public void onMessage(Message msg) {
-                    if (msg != null) {
-                        MapMessage map = (MapMessage) msg;
-                        try {
-                            System.out.println(map.getLong("time") + "接收#" + map.getString("text"));
-                        } catch (JMSException e) {
-                            e.printStackTrace();
-                        }
+            receiver.setMessageListener(msg -> {
+                if (msg != null) {
+                    MapMessage map = (MapMessage) msg;
+                    try {
+                        System.out.println(map.getLong("time") + "接收#" + map.getString("text"));
+                    } catch (JMSException e) {
+                        e.printStackTrace();
                     }
                 }
             });

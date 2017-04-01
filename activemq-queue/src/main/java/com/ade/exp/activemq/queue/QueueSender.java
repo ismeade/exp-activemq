@@ -55,7 +55,8 @@ public class QueueSender {
             // 创建消息发送者
             javax.jms.QueueSender sender = session.createSender(queue);
             // 设置持久化模式
-            sender.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+            sender.setDeliveryMode(DeliveryMode.NON_PERSISTENT); // 不持久化消息
+//            sender.setDeliveryMode(DeliveryMode.PERSISTENT); // 持久化消息 没有配置持久化模式时，默认采用kahadb
             sendMessage(session, sender);
 
 //            sendMessage(session, sender);

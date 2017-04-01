@@ -54,8 +54,9 @@ public class TopicSender {
             Topic topic = session.createTopic(DESTINATION);
             // 创建消息发送者
             TopicPublisher publisher = session.createPublisher(topic);
-            // 设置持久化模式
-            publisher.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+            // 设置持久化模式 没有配置持久化模式时，默认采用kahadb
+//            publisher.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+            publisher.setDeliveryMode(DeliveryMode.PERSISTENT);
             sendMessage(session, publisher);
             // 提交会话
             session.commit();
