@@ -11,6 +11,7 @@
         <module>activemq-topic</module>
         <module>activemq-queue</module>
         <module>activemq-embed</module>
+        <module>activemq-jms</module>
     </modules>
     <packaging>pom</packaging>
 
