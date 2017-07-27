@@ -31,7 +31,7 @@ public class TopicReceiver {
             // 启动连接
             connection.start();
             // 创建一个session会话
-            session = connection.createTopicSession(Boolean.TRUE, Session.AUTO_ACKNOWLEDGE);
+            session = connection.createTopicSession(Boolean.TRUE, Session.CLIENT_ACKNOWLEDGE);
             // 创建一个消息队列
             Topic topic = session.createTopic(TARGET);
             // 创建消息订阅者
@@ -51,10 +51,9 @@ public class TopicReceiver {
                 }
             });
             // 休眠100ms再关闭
-            Thread.sleep(1000 * 10);
-            session.commit();
+            Thread.sleep(1000 * 60);
 
-            // 提交会话
+            session.commit();
 
         } catch (Exception e) {
             throw e;

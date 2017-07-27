@@ -51,8 +51,6 @@ public class QueueReceiver {
             // 提交会话
             session.commit();
 
-        } catch (Exception e) {
-            throw e;
         } finally {
             // 关闭释放资源
             if (session != null) {
